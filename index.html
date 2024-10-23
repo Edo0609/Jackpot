@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Jackpot!</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Arima:wght@100..700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+	<div id="content">
+		<div id="winner"><p></p></div>
+		<div id="again"><p>Jugar otra vez?</p></div>
+		<div id="s-left" class="space"></div>
+		<div id="s-right" class="space"></div>
+		<div id="cat">
+			<img src="neko.png" id="cat-img" alt="neko">
+			<img src="arm.png" id="arm-img" alt="arm">
+		</div>
+		<div id="left" class="direction">
+			<p>Rojo</p>
+		</div>
+		<div id="right" class="direction">
+			<p>Negro</p>
+		</div>
+	</div>
+	<script>
+		const leftBtn = document.getElementById("left");
+		const rightBtn = document.getElementById("right");
+		const catArm = document.getElementById("arm-img");
+		const bg = document.getElementById("content");
+		const spaceLeft = document.getElementById("s-left");
+		const spaceRight = document.getElementById("s-right");
+		var random;
+		const winner = document.getElementById("winner");
+		const again = document.getElementById("again");
+
+		again.addEventListener('click', () => {
+			document.querySelectorAll('*').forEach(function(elem) {
+    			elem.style = '';
+			});
+		})
+
+
+		function jackpot(color) {
+			if (color == 'red') {
+				console.log("JACKPOT! ROJO");
+				spaceLeft.style.zIndex = "6";
+				spaceLeft.style.width = "100%";
+				winner.querySelector("p").innerHTML = "El ganador es: Rojo"; 
+			}
+			else {
+				console.log("JACKPOT! NEGRO");
+				spaceRight.style.zIndex = "6";
+				spaceRight.style.width = "200%";
+        		spaceRight.style.left = "0";
+				winner.querySelector("p").innerHTML = "El ganador es: Negro"; 
+			}
+			winner.style.top = "8vh";
+			winner.style.animation = "wiggle 0.5s ease-in-out 0s infinite alternate";
+			again.style.top = "80vh";
+		}
+
+		leftBtn.addEventListener("mouseover", () => {
+			bg.style.backgroundColor = "rgb(247, 218, 218)";
+			catArm.style.transform = "rotate(-45deg)";
+			leftBtn.style.backgroundColor = "rgb(197, 55, 55)";
+			leftBtn.style.boxShadow = "20px 0px 15px 40px rgb(197, 55, 55)";
+			document.querySelector("#left p").style.color = "white";
+		});
+		leftBtn.addEventListener("mouseleave", () => {
+			bg.style.backgroundColor = "rgb(238, 240, 247)";
+			catArm.style.transform = "rotate(0deg)";
+			leftBtn.style.backgroundColor = "transparent";
+			leftBtn.style.boxShadow = "20px 0px 15px 40px transparent";
+			document.querySelector("#left p").style.color = "black";
+		})
+		rightBtn.addEventListener("mouseover", () => {
+			bg.style.backgroundColor = "rgb(213, 219, 240)";
+			catArm.style.transform = "rotate(45deg)";
+			rightBtn.style.backgroundColor = "rgb(38, 40, 48)";
+			rightBtn.style.boxShadow = "-20px 0px 15px 40px rgb(38, 40, 48)";
+			document.querySelector("#right p").style.color = "white";
+		});
+		rightBtn.addEventListener("mouseleave", () => {
+			bg.style.backgroundColor = "rgb(238, 240, 247)";
+			catArm.style.transform = "rotate(0deg)";
+			rightBtn.style.backgroundColor = "transparent";
+			rightBtn.style.boxShadow = "-20px 0px 15px 40px transparent";
+			document.querySelector("#right p").style.color = "black";
+		});
+
+		leftBtn.addEventListener("click", () => {
+			leftBtn.style.display = "none";
+			rightBtn.style.display = "none";
+			random = (Math.random() * (24 - 8) + 8);
+			catArm.style.animation = "swing-left 1s ease-in-out 0s " + Math.floor(random) + " alternate forwards";
+
+			spaceLeft.style.animation = "center-left " + Math.floor(random - 1) + "s ease-out 0s 1 normal forwards";
+			spaceRight.style.animation = "center-right " + Math.floor(random - 1) + "s ease-out 0s 1 normal forwards";
+
+			setTimeout(() => {
+				
+				if (Math.floor(random) % 2 == 0) {
+					jackpot('red');
+				} else {
+					jackpot('black');
+				}
+			}, Math.floor(random + 1) * 1000);
+		});
+
+		rightBtn.addEventListener("click", () => {
+			leftBtn.style.display = "none";
+			rightBtn.style.display = "none";
+			random = (Math.random() * (24 - 8) + 8);
+			catArm.style.animation = "swing-right 1s ease-in-out 0s " + Math.floor(random) + " alternate forwards";
+
+			spaceLeft.style.animation = "center-left " + Math.floor(random - 1) + "s ease-out 0s 1 normal forwards";
+			spaceRight.style.animation = "center-right " +  Math.floor(random - 1) + "s ease-out 0s 1 normal forwards";
+
+			setTimeout(() => {
+				
+				if (Math.floor(random) % 2 == 0) {
+					jackpot('black');
+				} else {
+					jackpot('red');
+				}
+			}, Math.floor(random + 1) * 1000);
+		});
+	</script>
+</body>
+</html>
